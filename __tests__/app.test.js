@@ -62,4 +62,12 @@ describe("GET - /api/articles/:article_id", () => {
         expect(res.body.msg).toBe("Bad request!");
       });
   });
+  test("status: 404 - should return a 'No article found ...' message and status 404 if the article_id does not exist in the db", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("No article found for article_id: 9999");
+      });
+  });
 });

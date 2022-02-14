@@ -1,6 +1,10 @@
 const express = require("express");
 const { getArticle } = require("./controllers/articles");
-const { invalidPath, psqlError } = require("./controllers/errors");
+const {
+  invalidPath,
+  handlePsqlErrors,
+  handleCustomErrors,
+} = require("./controllers/errors");
 const { getTopics } = require("./controllers/topics");
 const app = express();
 
@@ -10,6 +14,7 @@ app.get("/api/articles/:article_id", getArticle);
 
 app.all("/*", invalidPath);
 
-app.use(psqlError);
+app.use(handleCustomErrors);
+app.use(handlePsqlErrors);
 
 module.exports = app;

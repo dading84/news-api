@@ -8,6 +8,12 @@ exports.selectArticle = (id) => {
       [id]
     )
     .then(({ rows }) => {
+      if (!rows[0]) {
+        return Promise.reject({
+          status: 404,
+          msg: `No article found for article_id: ${id}`,
+        });
+      }
       return rows[0];
     });
 };
