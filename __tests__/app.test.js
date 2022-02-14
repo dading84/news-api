@@ -25,7 +25,7 @@ describe("GET - /api/topics", () => {
         });
       });
   });
-  test("status: 404 - should return with a message & status code of 404 if the path is not found", () => {
+  test("status: 404 - should return with a 'Path not found!' message & status code of 404 if the path is not found", () => {
     return request(app)
       .get("/api/topicsss")
       .expect(404)
@@ -54,7 +54,7 @@ describe("GET - /api/articles/:article_id", () => {
         );
       });
   });
-  test("status: 400 - should return a message and status 400 if the article_id is not an integer", () => {
+  test("status: 400 - should return a 'Bad request!' message and status 400 if the article_id is not an integer", () => {
     return request(app)
       .get("/api/articles/dog")
       .expect(400)
