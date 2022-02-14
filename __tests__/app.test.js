@@ -36,22 +36,22 @@ describe("GET - /api/topics", () => {
 });
 
 describe("GET - /api/articles/:article_id", () => {
-  test("status: 200 - should return an article matching the article_id in the endpoint", () => {
-    const expectedArticle = convertTimestampToDate({
-      article_id: 1,
-      title: "Living in the shadow of a great man",
-      topic: "mitch",
-      author: "butter_bridge",
-      body: "I find this existence challenging",
-      created_at: 1594329060000,
-      votes: 100,
-    });
-    expectedArticle.created_at = expectedArticle.created_at.toISOString();
+  test("status: 200 - should return an article with the specified properties", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
       .then((res) => {
-        expect(res.body.article).toEqual(expectedArticle);
+        expect(res.body.article).toEqual(
+          expect.objectContaining({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            body: expect.any(String),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+          })
+        );
       });
   });
 });
