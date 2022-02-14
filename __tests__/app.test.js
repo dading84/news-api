@@ -24,4 +24,7 @@ describe("GET - /api/topics", () => {
         });
       });
   });
+  test("status: 404 - should return with a status code of 404 if the path is not found", () => {
+    return request(app).get("/api/topicsss").expect(404);
+  });
 });
