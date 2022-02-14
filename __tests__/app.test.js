@@ -46,6 +46,7 @@ describe("GET - /api/articles/:article_id", () => {
       created_at: 1594329060000,
       votes: 100,
     });
+    expectedArticle.created_at = expectedArticle.created_at.toISOString();
     return request(app)
       .get("/api/articles/1")
       .expect(200)
