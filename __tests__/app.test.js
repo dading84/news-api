@@ -3,7 +3,7 @@ const request = require("supertest");
 const db = require("../db/connection.js");
 const seed = require("../db/seeds/seed");
 const data = require("../db/data/test-data");
-const { convertTimestampToDate } = require("../db/data/helpers/utils");
+const { convertTimestampToDate } = require("../db/helpers/utils");
 
 beforeEach(() => seed(data));
 afterAll(() => db.end());
@@ -38,13 +38,13 @@ describe("GET - /api/topics", () => {
 describe("GET - /api/articles/:article_id", () => {
   test("status: 200 - should return an article matching the article_id in the endpoint", () => {
     const expectedArticle = convertTimestampToDate({
-      article_id = 1,
+      article_id: 1,
       title: "Living in the shadow of a great man",
       topic: "mitch",
       author: "butter_bridge",
       body: "I find this existence challenging",
       created_at: 1594329060000,
-      votes: 100
+      votes: 100,
     });
     return request(app)
       .get("/api/articles/1")
