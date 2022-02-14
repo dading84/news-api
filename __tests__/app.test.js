@@ -54,4 +54,12 @@ describe("GET - /api/articles/:article_id", () => {
         );
       });
   });
+  test("status: 400 - should return a message and status 400 if the article_id is not an integer", () => {
+    return request(app)
+      .get("/api/articles/dog")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
+      });
+  });
 });
