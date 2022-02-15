@@ -3,7 +3,6 @@ exports.invalidPath = (req, res) => {
 };
 
 exports.handleCustomErrors = (err, req, res, next) => {
-  console.log("inside handleCustomErrors");
   if (err.status && err.msg) {
     res.status(err.status).send({ msg: err.msg });
   } else next(err);
