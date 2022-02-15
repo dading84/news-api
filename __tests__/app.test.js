@@ -8,6 +8,17 @@ const { convertTimestampToDate } = require("../db/helpers/utils");
 beforeEach(() => seed(data));
 afterAll(() => db.end());
 
+describe("ALL", () => {
+  test("status: 404 - should return with a 'Path not found!' message & status code of 404 if the path is not found", () => {
+    return request(app)
+      .get("/api/topicsss")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Path not found!");
+      });
+  });
+});
+
 describe("GET - /api/topics", () => {
   test("status: 200 - should return an array of 3 topic objects with slug and description properties", () => {
     return request(app)
@@ -23,14 +34,6 @@ describe("GET - /api/topics", () => {
             })
           );
         });
-      });
-  });
-  test("status: 404 - should return with a 'Path not found!' message & status code of 404 if the path is not found", () => {
-    return request(app)
-      .get("/api/topicsss")
-      .expect(404)
-      .then((res) => {
-        expect(res.body.msg).toBe("Path not found!");
       });
   });
 });
