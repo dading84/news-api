@@ -22,7 +22,7 @@ exports.updateArticle = (id, votes) => {
   return db
     .query(
       `UPDATE articles
-      SET votes = (SELECT votes FROM articles WHERE article_id = $1) + $2
+      SET votes = votes + $2
       WHERE article_id = $1
       RETURNING *;`,
       [id, votes]
