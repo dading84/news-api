@@ -143,3 +143,30 @@ describe("GET - /api/users", () => {
       });
   });
 });
+
+describe("GET - /api/articles", () => {
+  test("status: 200 - should return an array of 12 article objects with specified properties, sorted by date DESC", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toHaveLength(12);
+        expect(res.body.articles).toBeSorted({
+          descending: true,
+          key: "created_at",
+        });
+        res.body.articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              topic: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+            })
+          );
+        });
+      });
+  });
+});
