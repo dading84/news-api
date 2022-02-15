@@ -84,11 +84,11 @@ describe("PATCH - /api/articles/:article_id", () => {
         topic: "mitch",
         author: "butter_bridge",
         body: "I find this existence challenging",
-        created_at: 1594329060000,
+        created_at: "2020-07-09T20:11:00.000Z",
         votes: 101,
       },
     };
-    const expected2 = { votes: 1, ...expected1 };
+    const expected2 = { article: { ...expected1.article, votes: 1 } };
     return request(app)
       .patch("/api/articles/1")
       .send({ inc_votes: 1 })
