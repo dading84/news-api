@@ -9,7 +9,6 @@ exports.getArticle = (req, res, next) => {
 };
 
 exports.patchArticle = ({ params, body }, res, next) => {
-  // console.log("inside patchArticle", params, body);
   if (typeof body.inc_votes === "undefined") {
     next({ status: 400, msg: "Bad request! No inc_votes property" });
   } else {

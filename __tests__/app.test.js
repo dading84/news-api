@@ -62,7 +62,7 @@ describe("GET - /api/articles/:article_id", () => {
       .get("/api/articles/dog")
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad request!");
+        expect(res.body.msg).toBe("Bad request! Invalid property");
       });
   });
   test("status: 404 - should return a 'No article found ...' message and status 404 if the article_id does not exist in the db", () => {
@@ -113,6 +113,15 @@ describe("PATCH - /api/articles/:article_id", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request! No inc_votes property");
+      });
+  });
+  test("status: 400 - should return a message and a status of 400 when inc_votes property is invalid", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: "cat" })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request! Invalid property");
       });
   });
 });

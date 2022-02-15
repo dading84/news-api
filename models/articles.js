@@ -19,7 +19,6 @@ exports.selectArticle = (id) => {
 };
 
 exports.updateArticle = (id, votes) => {
-  console.log("inside updateArticle", id);
   return db
     .query(
       `UPDATE articles
