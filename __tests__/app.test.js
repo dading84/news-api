@@ -74,3 +74,36 @@ describe("GET - /api/articles/:article_id", () => {
       });
   });
 });
+
+describe("PATCH - /api/articles/:article_id", () => {
+  test("status: 200 - should update the votes property in the db, and return the updated article", () => {
+    const expected1 = {
+      article: {
+        article_id: 1,
+        title: "Living in the shadow of a great man",
+        topic: "mitch",
+        author: "butter_bridge",
+        body: "I find this existence challenging",
+        created_at: 1594329060000,
+        votes: 101,
+      },
+    };
+    const expected2 = { votes: 1, ...expected1 };
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toEqual(expected1);
+      })
+      .then(() => {
+        return request(app)
+          .patch("/api/articles/1")
+          .send({ inc_votes: -100 })
+          .expect(200)
+          .then((res) => {
+            expect(res.body).toEqual(expected2);
+          });
+      });
+  });
+});
