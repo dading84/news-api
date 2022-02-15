@@ -4,6 +4,7 @@ const {
   invalidPath,
   handlePsqlErrors,
   handleCustomErrors,
+  handleServerErrors,
 } = require("./controllers/errors");
 const { getTopics } = require("./controllers/topics");
 const app = express();
@@ -16,5 +17,6 @@ app.all("/*", invalidPath);
 
 app.use(handleCustomErrors);
 app.use(handlePsqlErrors);
+app.use(handleServerErrors);
 
 module.exports = app;
