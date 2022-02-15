@@ -112,9 +112,7 @@ describe("PATCH - /api/articles/:article_id", () => {
       .send({})
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toEqual({
-          msg: "Bad request! No inc_votes property",
-        });
+        expect(res.body.msg).toBe("Bad request! No inc_votes property");
       });
   });
 });
