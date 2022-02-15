@@ -76,7 +76,7 @@ describe("GET - /api/articles/:article_id", () => {
 });
 
 describe("PATCH - /api/articles/:article_id", () => {
-  test("status: 200 - should update the votes property in the db, and return the updated article", () => {
+  test("status: 200 - should increment the articles votes field in the db, and return the updated article", () => {
     const expected1 = {
       article: {
         article_id: 1,
@@ -104,6 +104,17 @@ describe("PATCH - /api/articles/:article_id", () => {
           .then((res) => {
             expect(res.body).toEqual(expected2);
           });
+      });
+  });
+  test("status: 400 - should return a message and a status of 400 when no inc_votes property on the request body", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({})
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toEqual({
+          msg: "Bad request! No inc_votes property",
+        });
       });
   });
 });
