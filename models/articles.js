@@ -17,3 +17,17 @@ exports.selectArticle = (id) => {
       return rows[0];
     });
 };
+
+exports.updateArticle = (id, votes) => {
+  return db
+    .query(
+      `UPDATE articles
+      SET votes = votes + $2
+      WHERE article_id = $1
+      RETURNING *;`,
+      [id, votes]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
