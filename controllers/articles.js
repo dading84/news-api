@@ -1,4 +1,16 @@
-const { selectArticle, updateArticle } = require("../models/articles");
+const {
+  selectArticle,
+  updateArticle,
+  selectArticles,
+} = require("../models/articles");
+
+exports.getArticles = (req, res, next) => {
+  selectArticles()
+    .then((articles) => {
+      res.status(200).send({ articles });
+    })
+    .catch(next);
+};
 
 exports.getArticle = (req, res, next) => {
   selectArticle(req.params.article_id)
