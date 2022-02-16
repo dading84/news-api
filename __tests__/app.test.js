@@ -57,6 +57,30 @@ describe("GET - /api/articles/:article_id", () => {
         );
       });
   });
+  test("status: 200 - should return an article with a property stating the correct number of comments", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.article.comment_count).toBe(11);
+      })
+      .then(() => {
+        return request(app)
+          .get("/api/articles/11")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.article.comment_count).toBe(0);
+          });
+      })
+      .then(() => {
+        return request(app)
+          .get("/api/articles/9")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.article.comment_count).toBe(2);
+          });
+      });
+  });
   test("status: 400 - should return a 'Bad request!' message and status 400 if the article_id is not an integer", () => {
     return request(app)
       .get("/api/articles/dog")
