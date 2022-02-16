@@ -86,7 +86,7 @@ describe("GET - /api/articles/:article_id", () => {
       .get("/api/articles/dog")
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad request! Invalid property");
+        expect(res.body.msg).toBe("Bad request!");
       });
   });
   test("status: 404 - should return a 'No article found ...' message and status 404 if the article_id does not exist in the db", () => {
@@ -145,7 +145,7 @@ describe("PATCH - /api/articles/:article_id", () => {
       .send({ inc_votes: "cat" })
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad request! Invalid property");
+        expect(res.body.msg).toBe("Bad request!");
       });
   });
 });
@@ -191,6 +191,52 @@ describe("GET - /api/articles", () => {
             })
           );
         });
+      });
+  });
+});
+
+describe("GET - /api/articles/:article_id/comments", () => {
+  test("status: 200 - should return a list of comments, with specified properties, associated with the article", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments).toHaveLength(11);
+        res.body.comments.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+  test("status: 200 - should return an empty list of comments for an existing article with no comments", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments).toEqual([]);
+      });
+  });
+  test("status 404 - should return a message and a 404 status when the article does not currently exist", () => {
+    return request(app)
+      .get("/api/articles/9999/comments")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found");
+      });
+  });
+  test("status: 400 - should return a message and a status of 400 when article_id is invalid", () => {
+    return request(app)
+      .get("/api/articles/dog/comments")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
       });
   });
 });
