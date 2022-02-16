@@ -202,7 +202,7 @@ describe("GET - /api/articles", () => {
         res.body.articles.forEach((article) => {
           expect(article).toEqual(
             expect.objectContaining({
-              comments_count: expect.any(Number),
+              comment_count: expect.any(Number),
             })
           );
           if (article.article_id == 1) {
