@@ -215,4 +215,12 @@ describe("GET - /api/articles/:article_id/comments", () => {
         });
       });
   });
+  test("status: 200 - should return an empty list of comments for an existing article with no comments", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments).toEqual([]);
+      });
+  });
 });
