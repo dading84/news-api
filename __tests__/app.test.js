@@ -193,6 +193,24 @@ describe("GET - /api/articles", () => {
         });
       });
   });
+  test("status: 200 - should return an array of article objects also including a comment_count property", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toHaveLength(12);
+        res.body.articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              comments_count: expect.any(Number),
+            })
+          );
+          if (article.article_id == 1) {
+            expect(article.comment_count).toBe(11);
+          }
+        });
+      });
+  });
 });
 
 describe("GET - /api/articles/:article_id/comments", () => {
