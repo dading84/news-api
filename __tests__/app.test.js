@@ -223,4 +223,12 @@ describe("GET - /api/articles/:article_id/comments", () => {
         expect(res.body.comments).toEqual([]);
       });
   });
+  test("status 404 - should return a message and a 404 status when the article does not currently exist", () => {
+    return request(app)
+      .get("/api/articles/9999/comments")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found");
+      });
+  });
 });
