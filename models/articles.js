@@ -15,8 +15,12 @@ exports.selectArticles = () => {
 exports.selectArticle = (id) => {
   return db
     .query(
-      `SELECT * FROM articles 
-      WHERE article_id = $1;`,
+      `SELECT a.*, COUNT(c.comment_id)::INT AS comment_count 
+      FROM articles AS a 
+      LEFT JOIN comments AS c 
+      ON a.article_id = c.article_id 
+      WHERE a.article_id = $1 
+      GROUP BY a.article_id;`,
       [id]
     )
     .then(({ rows }) => {
