@@ -194,3 +194,25 @@ describe("GET - /api/articles", () => {
       });
   });
 });
+
+describe("GET - /api/articles/:article_id/comments", () => {
+  test("status: 200 - should return a list of comments, with specified properties, associated with the article", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments).toHaveLength(11);
+        res.body.comments.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+});
