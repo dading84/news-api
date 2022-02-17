@@ -236,7 +236,7 @@ describe("GET - /api/articles", () => {
       .get("/api/articles?sort_by=dnexist")
       .expect(400)
       .then((res) => {
-        expect(res.body.message).toBe("Invalid sort by!");
+        expect(res.body.msg).toBe("Invalid sort by!");
       });
   });
   test("status: 400 - should return a message and a status 400 when the order is not valid (asc, desc)", () => {
@@ -244,7 +244,7 @@ describe("GET - /api/articles", () => {
       .get("/api/articles?order=dnexist")
       .expect(400)
       .then((res) => {
-        expect(res.body.message).toBe("Invalid order by!");
+        expect(res.body.msg).toBe("Invalid order by!");
       });
   });
 });

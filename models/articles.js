@@ -13,15 +13,13 @@ exports.selectArticles = (sortBy = "created_at", order = "desc", topic) => {
   const sortGreenList = ["asc", "desc"];
 
   if (!columnGreenList.includes(sortBy)) {
-    return Promise.reject("Invalid sort by!");
+    return Promise.reject({ status: 400, msg: "Invalid sort by!" });
   } else if (!sortGreenList.includes(order)) {
-    return Promise.reject("Invalid order by!");
+    return Promise.reject({ status: 400, msg: "Invalid order by!" });
   }
 
   const queryValues = [];
-  if (topic) {
-    queryValues.push(topic);
-  }
+  if (topic) queryValues.push(topic);
 
   return db
     .query(
