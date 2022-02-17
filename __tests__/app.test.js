@@ -211,6 +211,18 @@ describe("GET - /api/articles", () => {
         });
       });
   });
+  test("status: 200 - should be sorted by column and direction when passes in query params", () => {
+    return request(app)
+      .get("/api/articles?sort_by=comment_count&order=asc")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toHaveLength(12);
+        expect(res.body.articles).toBeSorted({
+          ascending: true,
+          key: "comment_count",
+        });
+      });
+  });
 });
 
 describe("GET - /api/articles/:article_id/comments", () => {
