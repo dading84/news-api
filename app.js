@@ -4,7 +4,10 @@ const {
   patchArticle,
   getArticles,
 } = require("./controllers/articles");
-const { getCommentsByArticleId } = require("./controllers/comments");
+const {
+  getCommentsByArticleId,
+  postComment,
+} = require("./controllers/comments");
 const {
   invalidPath,
   handlePsqlErrors,
@@ -24,6 +27,8 @@ app.get("/api/articles/:article_id", getArticle);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 app.patch("/api/articles/:article_id", patchArticle);
+
+app.post("/api/articles/:article_id/comments", postComment);
 
 app.all("/*", invalidPath);
 

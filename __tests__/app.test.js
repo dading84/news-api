@@ -270,11 +270,11 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(201)
       .then((res) => {
-        expect(res.body).toEqual(
+        expect(res.body.comment).toEqual(
           expect.objectContaining({
             comment_id: 19,
             article_id: 2,
-            username: "rogersop",
+            author: "rogersop",
             body: "This is my very interesting comment",
             votes: 0,
             created_at: expect.any(String),
