@@ -283,16 +283,31 @@ describe("POST - /api/articles/:article_id/comments", () => {
       });
   });
   test("status: 400 - should return a message and a status 400 when an invalid article id is provided", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+    };
     return request(app)
       .post("/api/articles/dog/comments")
+      .send(newComment)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
       });
   });
-  // test('status: 400 - should return a message and a status 400 when and invalid username is provided', () => {
-
-  // });
+  test("status: 400 - should return a message and a status 400 when and invalid username is provided", () => {
+    const newComment = {
+      username: "invalid-user",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request! Invalid FK");
+      });
+  });
   // test('status: 400 - should return a message and a status 400 when no body property or it is empty', () => {
 
   // });
