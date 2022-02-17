@@ -5,7 +5,7 @@ const {
 } = require("../models/articles");
 
 exports.getArticles = ({ query }, res, next) => {
-  selectArticles(query.sort_by, query.order)
+  selectArticles(query.sort_by, query.order, query.topic)
     .then((articles) => {
       res.status(200).send({ articles });
     })

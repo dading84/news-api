@@ -1,6 +1,6 @@
 const db = require("../db/connection.js");
 
-exports.selectArticles = (sortBy = "created_at", order = "desc") => {
+exports.selectArticles = (sortBy = "created_at", order = "desc", topic) => {
   const columnGreenList = [
     "author",
     "title",
@@ -18,6 +18,11 @@ exports.selectArticles = (sortBy = "created_at", order = "desc") => {
     return Promise.reject("Invalid order by!");
   }
 
+  const queryValues = [];
+  if (topic) {
+    queryValues.push(topic);
+  }
+
   return db
     .query(
       `SELECT a.author, a.title, a.article_id, a.topic, a.created_at, a.votes, 
@@ -25,8 +30,10 @@ exports.selectArticles = (sortBy = "created_at", order = "desc") => {
       FROM articles AS a 
       LEFT JOIN comments AS c 
       ON a.article_id = c.article_id 
+      ${topic ? ` WHERE topic = $1` : ""}
       GROUP BY a.article_id
-      ORDER BY ${sortBy} ${order.toUpperCase()};`
+      ORDER BY ${sortBy} ${order.toUpperCase()};`,
+      queryValues
     )
     .then(({ rows }) => {
       return rows;
