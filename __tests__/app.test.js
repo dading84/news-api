@@ -223,6 +223,14 @@ describe("GET - /api/articles", () => {
         });
       });
   });
+  test("status: 200 - should be filtered by a topic when passed a topic query param", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toHaveLength(11);
+      });
+  });
 });
 
 describe("GET - /api/articles/:article_id/comments", () => {
