@@ -290,7 +290,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
       .get("/api/articles/9999/comments")
       .expect(404)
       .then((res) => {
-        expect(res.body.msg).toBe("Resource not found");
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
   test("status: 400 - should return a message and a status of 400 when article_id is invalid", () => {
@@ -374,7 +374,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(404)
       .then((res) => {
-        expect(res.body.msg).toBe("Resource not found");
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
   test("status: 404 - should return a message and a status 404 when the username is not found", () => {
@@ -387,7 +387,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(404)
       .then((res) => {
-        expect(res.body.msg).toBe("Resource not found");
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
 });

@@ -1,3 +1,4 @@
+const { checkExists } = require("../db/helpers/utils");
 const {
   selectArticle,
   updateArticle,
@@ -5,8 +6,10 @@ const {
 } = require("../models/articles");
 
 exports.getArticles = ({ query }, res, next) => {
-  selectArticles(query.sort_by, query.order, query.topic)
-    .then((articles) => {
+  const promises = [selectArticles(query.sort_by, query.order, query.topic)];
+  if (query.topic) promises.push(checkExists("topics", "slug", query.topic));
+  Promise.all(promises)
+    .then(([articles]) => {
       res.status(200).send({ articles });
     })
     .catch(next);
