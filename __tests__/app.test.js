@@ -241,7 +241,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
         expect(res.body.comments).toEqual([]);
       });
   });
-  test("status 404 - should return a message and a 404 status when the article does not currently exist", () => {
+  test("status: 404 - should return a message and a 404 status when the article does not currently exist", () => {
     return request(app)
       .get("/api/articles/9999/comments")
       .expect(404)
@@ -255,6 +255,31 @@ describe("GET - /api/articles/:article_id/comments", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+});
+
+describe("POST - /api/articles/:article_id/comments", () => {
+  test("should return a 201 status and the added object", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            comment_id: 19,
+            article_id: 2,
+            username: "rogersop",
+            body: "This is my very interesting comment",
+            votes: 0,
+            created_at: expect.any(String),
+          })
+        );
       });
   });
 });
