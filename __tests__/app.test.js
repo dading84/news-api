@@ -247,6 +247,14 @@ describe("GET - /api/articles", () => {
         expect(res.body.msg).toBe("Invalid order by!");
       });
   });
+  test("status: 404 - should return a message and a status 404 when the topic is not in the database", () => {
+    return request(app)
+      .get("/api/articles?topic=dnexist")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found!");
+      });
+  });
 });
 
 describe("GET - /api/articles/:article_id/comments", () => {
