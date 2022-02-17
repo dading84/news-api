@@ -260,7 +260,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
 });
 
 describe("POST - /api/articles/:article_id/comments", () => {
-  test("should return a 201 status and the added object", () => {
+  test("status: 201 - should return a 201 status and the added object", () => {
     const newComment = {
       username: "rogersop",
       body: "This is my very interesting comment",
@@ -282,4 +282,18 @@ describe("POST - /api/articles/:article_id/comments", () => {
         );
       });
   });
+  test("status: 400 - should return a message and a status 400 when an invalid article id is provided", () => {
+    return request(app)
+      .post("/api/articles/dog/comments")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+  // test('status: 400 - should return a message and a status 400 when and invalid username is provided', () => {
+
+  // });
+  // test('status: 400 - should return a message and a status 400 when no body property or it is empty', () => {
+
+  // });
 });
