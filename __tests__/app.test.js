@@ -295,19 +295,6 @@ describe("POST - /api/articles/:article_id/comments", () => {
         expect(res.body.msg).toBe("Bad request!");
       });
   });
-  test("status: 400 - should return a message and a status 400 when and invalid username is provided", () => {
-    const newComment = {
-      username: "invalid-user",
-      body: "This is my very interesting comment",
-    };
-    return request(app)
-      .post("/api/articles/2/comments")
-      .send(newComment)
-      .expect(400)
-      .then((res) => {
-        expect(res.body.msg).toBe("Bad request! Invalid FK");
-      });
-  });
   test("status: 400 - should return a message and a status 400 when no body property or it is empty", () => {
     const newComment = {
       username: "rogersop",
@@ -331,6 +318,32 @@ describe("POST - /api/articles/:article_id/comments", () => {
           .then((res) => {
             expect(res.body.msg).toBe("Bad request!");
           });
+      });
+  });
+  test("status: 404 - should return a message and a status 404 when the article is not found", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/9999/comments")
+      .send(newComment)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found");
+      });
+  });
+  test("status: 404 - should return a message and a status 404 when the username is not found", () => {
+    const newComment = {
+      username: "non-existent",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found");
       });
   });
 });
