@@ -308,7 +308,29 @@ describe("POST - /api/articles/:article_id/comments", () => {
         expect(res.body.msg).toBe("Bad request! Invalid FK");
       });
   });
-  // test('status: 400 - should return a message and a status 400 when no body property or it is empty', () => {
-
-  // });
+  test("status: 400 - should return a message and a status 400 when no body property or it is empty", () => {
+    const newComment = {
+      username: "rogersop",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        return expect(res.body.msg).toBe("Bad request! Missing property");
+      })
+      .then(() => {
+        const newComment = {
+          username: "rogersop",
+          body: "",
+        };
+        return request(app)
+          .post("/api/articles/dog/comments")
+          .send(newComment)
+          .expect(400)
+          .then((res) => {
+            expect(res.body.msg).toBe("Bad request!");
+          });
+      });
+  });
 });
