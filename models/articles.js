@@ -1,6 +1,23 @@
 const db = require("../db/connection.js");
 
-exports.selectArticles = () => {
+exports.selectArticles = (sortBy = "created_at", order = "desc") => {
+  const columnGreenList = [
+    "author",
+    "title",
+    "article_id",
+    "topic",
+    "created_at",
+    "votes",
+    "comment_count",
+  ];
+  const sortGreenList = ["asc", "desc"];
+
+  if (!columnGreenList.includes(sortBy)) {
+    return Promise.reject("Invalid sort by!");
+  } else if (!sortGreenList.includes(order)) {
+    return Promise.reject("Invalid order by!");
+  }
+
   return db
     .query(
       `SELECT a.author, a.title, a.article_id, a.topic, a.created_at, a.votes, 
@@ -9,7 +26,7 @@ exports.selectArticles = () => {
       LEFT JOIN comments AS c 
       ON a.article_id = c.article_id 
       GROUP BY a.article_id
-      ORDER BY a.created_at DESC;`
+      ORDER BY ${sortBy} ${order.toUpperCase()};`
     )
     .then(({ rows }) => {
       return rows;
