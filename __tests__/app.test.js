@@ -231,6 +231,14 @@ describe("GET - /api/articles", () => {
         expect(res.body.articles).toHaveLength(11);
       });
   });
+  test("status: 200 - should return an empty list of articles when passed a topic that exists but belongs to no articles", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toEqual([]);
+      });
+  });
   test("status: 400 - should return a message and a status 400 when the sort_by column does not exist", () => {
     return request(app)
       .get("/api/articles?sort_by=dnexist")
