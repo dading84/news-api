@@ -231,6 +231,22 @@ describe("GET - /api/articles", () => {
         expect(res.body.articles).toHaveLength(11);
       });
   });
+  test("status: 400 - should return a message and a status 400 when the sort_by column does not exist", () => {
+    return request(app)
+      .get("/api/articles?sort_by=dnexist")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe("Invalid sort by!");
+      });
+  });
+  test("status: 400 - should return a message and a status 400 when the order is not valid (asc, desc)", () => {
+    return request(app)
+      .get("/api/articles?order=dnexist")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe("Invalid order by!");
+      });
+  });
 });
 
 describe("GET - /api/articles/:article_id/comments", () => {
