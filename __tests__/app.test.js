@@ -383,9 +383,6 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(400)
       .then((res) => {
-<<<<<<< HEAD
-        expect(res.body.msg).toBe("Resource not found!");
-=======
         expect(res.body.msg).toBe("Bad request! Invalid FK");
 >>>>>>> 2df92f1060cc9a9c0f23e17c02eab7edac361d9d
       });
@@ -400,11 +397,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(400)
       .then((res) => {
-<<<<<<< HEAD
-        expect(res.body.msg).toBe("Resource not found!");
-=======
         expect(res.body.msg).toBe("Bad request! Invalid FK");
->>>>>>> 2df92f1060cc9a9c0f23e17c02eab7edac361d9d
       });
   });
 });
