@@ -356,7 +356,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(400)
       .then((res) => {
-        return expect(res.body.msg).toBe("Bad request! Missing property");
+        expect(res.body.msg).toBe("Bad request! Missing property");
       });
   });
   test("status: 400 - should return a message and a status 400 when the body property is empty", () => {
@@ -397,6 +397,33 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request! Invalid FK");
+      });
+  });
+});
+
+describe("DELETE - /api/comments/:comment_id", () => {
+  test("should return a 204 status and no content", () => {
+    return request(app)
+      .delete("/api/comments/2")
+      .expect(204)
+      .then((res) => {
+        expect(res.body).toBe("");
+      });
+  });
+  test("should return a message and a 404 status when the comment does not exist", () => {
+    return request(app)
+      .delete("/api/comments/9999")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found!");
+      });
+  });
+  test("should return a message and a 400 status when the comment_id provided is invalid", () => {
+    return request(app)
+      .delete("/api/comments/dog")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
       });
   });
 });
