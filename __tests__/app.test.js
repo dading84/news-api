@@ -402,7 +402,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
 });
 
 describe("DELETE - /api/comments/:comment_id", () => {
-  test("should return a 204 status and no content", () => {
+  test("status: 204 - should return a 204 status and no content", () => {
     return request(app)
       .delete("/api/comments/2")
       .expect(204)
@@ -410,12 +410,25 @@ describe("DELETE - /api/comments/:comment_id", () => {
         expect(res.body).toEqual({});
       });
   });
-  test("should return a message and a 400 status when the comment_id provided is invalid", () => {
+  test("status: 400 - should return a message and a 400 status when the comment_id provided is invalid", () => {
     return request(app)
       .delete("/api/comments/dog")
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+});
+
+describe("GET - /api", () => {
+  test("status: 200 - should respond with JSON representing all the endpoints of the API", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.endpoints["GET /api"].description).toBe(
+          "serves up a json representation of all the available endpoints of the api"
+        );
       });
   });
 });

@@ -9,19 +9,98 @@
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [{ "username": "user1" }]
+    }
+  },
   "GET /api/articles": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "description": "serves an array of all articles",
+    "queries": ["topic", "sort_by", "order"],
     "exampleResponse": {
       "articles": [
         {
+          "article_id": 2,
           "title": "Seafood substitutions are increasing",
           "topic": "cooking",
           "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": "2020-07-09T20:11:00.000Z",
+          "votes": -2,
+          "comment_count": 5
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an article matching the id",
+    "queries": [],
+    "exampleResponse": {
+      "article": {
+        "author": "Shakespear",
+        "title": "An Article",
+        "article_id": 1,
+        "body": "Some interesting text",
+        "topic": "masterpiece",
+        "created_at": "2020-07-09T20:11:00.000Z",
+        "votes": 101,
+        "comment_count": 20
+      }
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of all comments for a specified article",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 1,
+          "votes": 11,
+          "created_at": "2020-07-09T20:11:00.000Z",
+          "author": "Another",
+          "body": "Commenting on an article"
+        }
+      ]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "allows incrementing of a specified articles votes, serves the updated article",
+    "queries": [],
+    "exampleRequest": { "inc_votes": 19 },
+    "exampleResponse": {
+      "article": {
+        "article_id": 10,
+        "title": "Living in the shadow of a great man",
+        "topic": "mitch",
+        "author": "butter_bridge",
+        "body": "I find this existence challenging",
+        "created_at": "2020-07-09T20:11:00.000Z",
+        "votes": 21
+      }
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "allows adding of a new comment, serves the added comment",
+    "queries": [],
+    "exampleRequest": {
+      "username": "rogersop",
+      "body": "This is my very interesting comment"
+    },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 19,
+        "article_id": 2,
+        "author": "rogersop",
+        "body": "This is my very interesting comment",
+        "votes": 0,
+        "created_at": "2020-07-09T20:11:00.000Z"
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes a comment",
+    "queries": [],
+    "exampleResponse": {}
   }
 }
