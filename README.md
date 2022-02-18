@@ -8,7 +8,7 @@ View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
 
 ## Setup
 
-### Clone to your machine:
+### Clone:
 
 `git clone https://github.com/dading84/news-api.git`
 
