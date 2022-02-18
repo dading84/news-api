@@ -13,9 +13,9 @@ exports.insertComment = (articleId, { username: author, body }) => {
     .query(
       `
     INSERT INTO comments 
-    (article_id, author, body, votes, created_at)
+    (article_id, author, body)
     VALUES
-    ($1, $2, $3, 0, NOW())
+    ($1, $2, $3)
     RETURNING *;`,
       [articleId, author, body]
     )
