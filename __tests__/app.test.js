@@ -384,7 +384,6 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request! Invalid FK");
->>>>>>> 2df92f1060cc9a9c0f23e17c02eab7edac361d9d
       });
   });
   test("status: 400 - should return a FK message and a status 400 when the username does not exist", () => {
