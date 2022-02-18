@@ -407,15 +407,7 @@ describe("DELETE - /api/comments/:comment_id", () => {
       .delete("/api/comments/2")
       .expect(204)
       .then((res) => {
-        expect(res.body).toBe("");
-      });
-  });
-  test("should return a message and a 404 status when the comment does not exist", () => {
-    return request(app)
-      .delete("/api/comments/9999")
-      .expect(404)
-      .then((res) => {
-        expect(res.body.msg).toBe("Resource not found!");
+        expect(res.body).toEqual({});
       });
   });
   test("should return a message and a 400 status when the comment_id provided is invalid", () => {

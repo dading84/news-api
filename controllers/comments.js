@@ -2,6 +2,7 @@ const { checkExists } = require("../db/helpers/utils");
 const {
   selectCommentsByArticleId,
   insertComment,
+  deleteComment,
 } = require("../models/comments");
 
 exports.getCommentsByArticleId = (req, res, next) => {
@@ -20,6 +21,14 @@ exports.postComment = ({ params, body }, res, next) => {
   insertComment(params.article_id, body)
     .then((comment) => {
       res.status(201).send({ comment });
+    })
+    .catch(next);
+};
+
+exports.removeComment = (req, res, next) => {
+  deleteComment(req.params.comment_id)
+    .then(() => {
+      res.status(204).send();
     })
     .catch(next);
 };
