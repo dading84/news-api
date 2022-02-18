@@ -211,6 +211,58 @@ describe("GET - /api/articles", () => {
         });
       });
   });
+  test("status: 200 - should be sorted by column and direction when passes in query params", () => {
+    return request(app)
+      .get("/api/articles?sort_by=comment_count&order=asc")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toHaveLength(12);
+        expect(res.body.articles).toBeSorted({
+          ascending: true,
+          key: "comment_count",
+        });
+      });
+  });
+  test("status: 200 - should be filtered by a topic when passed a topic query param", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toHaveLength(11);
+      });
+  });
+  test("status: 200 - should return an empty list of articles when passed a topic that exists but belongs to no articles", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.articles).toEqual([]);
+      });
+  });
+  test("status: 400 - should return a message and a status 400 when the sort_by column does not exist", () => {
+    return request(app)
+      .get("/api/articles?sort_by=dnexist")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid sort by!");
+      });
+  });
+  test("status: 400 - should return a message and a status 400 when the order is not valid (asc, desc)", () => {
+    return request(app)
+      .get("/api/articles?order=dnexist")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid order by!");
+      });
+  });
+  test("status: 404 - should return a message and a status 404 when the topic is not in the database", () => {
+    return request(app)
+      .get("/api/articles?topic=dnexist")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found!");
+      });
+  });
 });
 
 describe("GET - /api/articles/:article_id/comments", () => {
@@ -246,7 +298,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
       .get("/api/articles/9999/comments")
       .expect(404)
       .then((res) => {
-        expect(res.body.msg).toBe("Resource not found");
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
   test("status: 400 - should return a message and a status of 400 when article_id is invalid", () => {
