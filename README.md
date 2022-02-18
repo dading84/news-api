@@ -2,8 +2,6 @@
 
 I have created this news api project as a part of a skills bootcamp course, run by [Northcoders](https://northcoders.com/)
 
-## Live Demo
-
 View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
 
 ## Setup
