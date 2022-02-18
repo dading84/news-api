@@ -30,7 +30,7 @@ They should both contain the text `PGDATABASE=<database_name_here>` stating the 
 
 This will show the output from all the projects tests, from the jest testing suites.
 
-### Minimum tested versions:
+## Minimum tested versions:
 
 Node.js: v16.13.1
 
