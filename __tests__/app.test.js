@@ -241,7 +241,7 @@ describe("GET - /api/articles/:article_id/comments", () => {
         expect(res.body.comments).toEqual([]);
       });
   });
-  test("status 404 - should return a message and a 404 status when the article does not currently exist", () => {
+  test("status: 404 - should return a message and a 404 status when the article does not currently exist", () => {
     return request(app)
       .get("/api/articles/9999/comments")
       .expect(404)
@@ -255,6 +255,96 @@ describe("GET - /api/articles/:article_id/comments", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+});
+
+describe("POST - /api/articles/:article_id/comments", () => {
+  test("status: 201 - should return a 201 status and the added object", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        expect(res.body.comment).toEqual(
+          expect.objectContaining({
+            comment_id: 19,
+            article_id: 2,
+            author: "rogersop",
+            body: "This is my very interesting comment",
+            votes: 0,
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+  test("status: 400 - should return a message and a status 400 when an invalid article_id is provided", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/dog/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+  test("status: 400 - should return a message and a status 400 when request body has no body property", () => {
+    const newComment = {
+      username: "rogersop",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        return expect(res.body.msg).toBe("Bad request! Missing property");
+      });
+  });
+  test("status: 400 - should return a message and a status 400 when the body property is empty", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "",
+    };
+    return request(app)
+      .post("/api/articles/dog/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+
+  test("status: 400 - should return a FK message and a status 400 when the article does not exist", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/9999/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request! Invalid FK");
+      });
+  });
+  test("status: 400 - should return a FK message and a status 400 when the username does not exist", () => {
+    const newComment = {
+      username: "non-existent",
+      body: "This is my very interesting comment",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request! Invalid FK");
       });
   });
 });
