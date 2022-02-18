@@ -23,3 +23,12 @@ exports.insertComment = (articleId, { username: author, body }) => {
       return rows[0];
     });
 };
+
+exports.deleteComment = (commentId) => {
+  return db.query(
+    `DELETE FROM comments
+    WHERE comment_id = $1;
+    `,
+    [commentId]
+  );
+};
