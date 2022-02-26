@@ -26,7 +26,7 @@ jobs:
         with:
           postgresql db: test_db
           postgresql user: mr_tester
-          postgresql: p4ssw0rd
+          postgresql password: p4ssw0rd
 
       - name: Test Utils and App
         run: PGDATABASE=test_db PGUSER=mr_tester PGPASSWORD=p4ssw0rd npm test
