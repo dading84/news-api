@@ -100,7 +100,7 @@ describe("GET - /api/articles/:article_id", () => {
 });
 
 describe("PATCH - /api/articles/:article_id", () => {
-  xtest("status: 200 - should increment the articles votes field in the db, and return the updated article", () => {
+  test("status: 200 - should increment the articles votes field in the db, and return the updated article", () => {
     const expected1 = {
       article: {
         article_id: 1,
