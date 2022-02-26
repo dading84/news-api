@@ -18,8 +18,8 @@ jobs:
       - name: Checkout and clone repo
         uses: actions/checkout@v2
 
-      - name: Test Utils
-        run: npm test utils
+      - name: Install Depenedencies
+        run: npm install
 
       - name: Setup PSQL
         uses: harmon758/postgresql-action@v1
