@@ -104,11 +104,11 @@ describe("PATCH - /api/articles/:article_id", () => {
     const expected1 = {
       article: {
         article_id: 1,
-        title: "Living in the shadow of a great man",
-        topic: "mitch",
-        author: "butter_bridge",
-        body: "I find this existence challenging",
-        created_at: "2020-07-09T20:11:00.000Z",
+        title: expect.any(String),
+        topic: expect.any(String),
+        author: expect.any(String),
+        body: expect.any(String),
+        created_at: expect.any(String),
         votes: 101,
       },
     };
@@ -118,7 +118,7 @@ describe("PATCH - /api/articles/:article_id", () => {
       .send({ inc_votes: 1 })
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual(expected1);
+        expect(res.body).toEqual(expect.objectContaining(expected1));
       })
       .then(() => {
         return request(app)
@@ -126,7 +126,7 @@ describe("PATCH - /api/articles/:article_id", () => {
           .send({ inc_votes: -100 })
           .expect(200)
           .then((res) => {
-            expect(res.body).toEqual(expected2);
+            expect(res.body).toEqual(expect.objectContaining(expected2));
           });
       });
   });
