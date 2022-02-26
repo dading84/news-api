@@ -5,8 +5,13 @@ const {
   handleCustomErrors,
   handleServerErrors,
 } = require("./controllers/errors");
+const res = require("express/lib/response");
 
 const app = express();
+
+app.get("/greeting", (req, res, next) => {
+  res.status(200).send({ msg: "Welcome!" });
+});
 
 app.use(express.json());
 app.use("/api", apiRouter);
