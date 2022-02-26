@@ -5,13 +5,18 @@ const {
   handleCustomErrors,
   handleServerErrors,
 } = require("./controllers/errors");
+const { invalidPath } = require("./controllers/errors");
 
 const app = express();
 
 app.use(express.json());
+
 app.use("/api", apiRouter);
+
 app.use(handleCustomErrors);
 app.use(handlePsqlErrors);
 app.use(handleServerErrors);
+
+app.all("/*", invalidPath);
 
 module.exports = app;
