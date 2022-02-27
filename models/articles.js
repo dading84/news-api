@@ -60,6 +60,22 @@ exports.selectArticle = (id) => {
     });
 };
 
+exports.insertArticle = ({ title, topic, author, body }) => {
+  return db
+    .query(
+      `
+    INSERT INTO articles 
+    (title, topic, author, body)
+    VALUES
+    ($1, $2, $3, $4)
+    RETURNING *;`,
+      [title, topic, author, body]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
+
 exports.updateArticle = (id, votes) => {
   return db
     .query(

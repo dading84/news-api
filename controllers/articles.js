@@ -3,6 +3,7 @@ const {
   selectArticle,
   updateArticle,
   selectArticles,
+  insertArticle,
 } = require("../models/articles");
 
 exports.getArticles = ({ query }, res, next) => {
@@ -19,6 +20,15 @@ exports.getArticle = (req, res, next) => {
   selectArticle(req.params.article_id)
     .then((article) => {
       res.status(200).send({ article });
+    })
+    .catch(next);
+};
+
+exports.postArticle = ({ body }, res, next) => {
+  insertArticle(body)
+    .then((article) => {
+      article.comment_count = 0;
+      res.status(201).send({ article });
     })
     .catch(next);
 };
