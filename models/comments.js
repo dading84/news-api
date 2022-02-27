@@ -24,6 +24,20 @@ exports.insertComment = (articleId, { username: author, body }) => {
     });
 };
 
+exports.updateComment = (id, votes) => {
+  return db
+    .query(
+      `UPDATE comments
+    SET votes = votes + $2
+    WHERE comment_id = $1
+    RETURNING *;`,
+      [id, votes]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
+
 exports.deleteComment = (commentId) => {
   return db.query(
     `DELETE FROM comments

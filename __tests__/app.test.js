@@ -18,6 +18,19 @@ describe("ALL", () => {
   });
 });
 
+describe("GET - /api", () => {
+  test("status: 200 - should respond with JSON representing all the endpoints of the API", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.endpoints["GET /api"].description).toBe(
+          "serves up a json representation of all the available endpoints of the api"
+        );
+      });
+  });
+});
+
 describe("GET - /api/topics", () => {
   test("status: 200 - should return an array of 3 topic objects with slug and description properties", () => {
     return request(app)
@@ -123,10 +136,10 @@ describe("PATCH - /api/articles/:article_id", () => {
         return request(app)
           .patch("/api/articles/1")
           .send({ inc_votes: -100 })
-          .expect(200)
-          .then((res) => {
-            expect(res.body).toEqual(expect.objectContaining(expected2));
-          });
+          .expect(200);
+      })
+      .then((res) => {
+        expect(res.body).toEqual(expect.objectContaining(expected2));
       });
   });
   test("status: 400 - should return a message and a status of 400 when no inc_votes property on the request body", () => {
@@ -135,7 +148,7 @@ describe("PATCH - /api/articles/:article_id", () => {
       .send({})
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad request! No inc_votes property");
+        expect(res.body.msg).toBe("Bad request! Missing property");
       });
   });
   test("status: 400 - should return a message and a status of 400 when inc_votes property is invalid", () => {
@@ -163,6 +176,30 @@ describe("GET - /api/users", () => {
             })
           );
         });
+      });
+  });
+});
+
+describe("GET - /api/users/:username", () => {
+  test("status: 200 - should return a user with specified properties", () => {
+    return request(app)
+      .get("/api/users/rogersop")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.user).toEqual({
+          username: "rogersop",
+          name: "paul",
+          avatar_url:
+            "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+        });
+      });
+  });
+  test("status: 404 - should return a message and status 404", () => {
+    return request(app)
+      .get("/api/users/doesnotexist")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
 });
@@ -400,6 +437,56 @@ describe("POST - /api/articles/:article_id/comments", () => {
   });
 });
 
+describe("PATCH - /api/comments/:comment_id", () => {
+  test("status: 200 - should increment the comments votes field in the db, and return the updated comment", () => {
+    const expected1 = {
+      comment: {
+        comment_id: 1,
+        body: expect.any(String),
+        article_id: expect.any(Number),
+        author: expect.any(String),
+        created_at: expect.any(String),
+        votes: 17,
+      },
+    };
+    const expected2 = { comment: { ...expected1.comment, votes: -3 } };
+    return request(app)
+      .patch("/api/comments/1")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toEqual(expect.objectContaining(expected1));
+      })
+      .then(() => {
+        return request(app)
+          .patch("/api/comments/1")
+          .send({ inc_votes: -20 })
+          .expect(200);
+      })
+      .then((res) => {
+        expect(res.body).toEqual(expect.objectContaining(expected2));
+      });
+  });
+  test("status: 400 - should return a message and a status of 400 when no inc_votes property on the request body", () => {
+    return request(app)
+      .patch("/api/comments/1")
+      .send({})
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request! Missing property");
+      });
+  });
+  test("status: 400 - should return a message and a status of 400 when inc_votes property is invalid", () => {
+    return request(app)
+      .patch("/api/comments/1")
+      .send({ inc_votes: "cat" })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+});
+
 describe("DELETE - /api/comments/:comment_id", () => {
   test("status: 204 - should return a 204 status and no content", () => {
     return request(app)
@@ -415,43 +502,6 @@ describe("DELETE - /api/comments/:comment_id", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
-      });
-  });
-});
-
-describe("GET - /api", () => {
-  test("status: 200 - should respond with JSON representing all the endpoints of the API", () => {
-    return request(app)
-      .get("/api")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.endpoints["GET /api"].description).toBe(
-          "serves up a json representation of all the available endpoints of the api"
-        );
-      });
-  });
-});
-
-describe("GET - /api/users/:username", () => {
-  test("status: 200 - should return a user with specified properties", () => {
-    return request(app)
-      .get("/api/users/rogersop")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.user).toEqual({
-          username: "rogersop",
-          name: "paul",
-          avatar_url:
-            "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
-        });
-      });
-  });
-  test("status: 404 - should return a message and status 404", () => {
-    return request(app)
-      .get("/api/users/doesnotexist")
-      .expect(404)
-      .then((res) => {
-        expect(res.body.msg).toBe("Resource not found!");
       });
   });
 });
