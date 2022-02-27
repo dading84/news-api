@@ -38,7 +38,7 @@
     "queries": [],
     "exampleResponse": {
       "article": {
-        "author": "Shakespear",
+        "author": "Shakespeare",
         "title": "An Article",
         "article_id": 1,
         "body": "Some interesting text",
@@ -65,7 +65,7 @@
     }
   },
   "PATCH /api/articles/:article_id": {
-    "description": "allows incrementing of a specified articles votes, serves the updated article",
+    "description": "allows incrementing of a specified articles votes, returns the updated article",
     "queries": [],
     "exampleRequest": { "inc_votes": 19 },
     "exampleResponse": {
@@ -81,7 +81,7 @@
     }
   },
   "POST /api/articles/:article_id/comments": {
-    "description": "allows adding of a new comment, serves the added comment",
+    "description": "allows adding of a new comment, returns the added comment",
     "queries": [],
     "exampleRequest": {
       "username": "rogersop",
@@ -95,6 +95,21 @@
         "body": "This is my very interesting comment",
         "votes": 0,
         "created_at": "2020-07-09T20:11:00.000Z"
+      }
+    }
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "allows incrementing of a specified comments votes, returns the updated comment",
+    "queries": [],
+    "exampleRequest": { "inc_votes": 19 },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 1,
+        "body": "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        "article_id": 9,
+        "author": "butter_bridge",
+        "votes": -3,
+        "created_at": "2020-04-06T12:17:00.000Z"
       }
     }
   },
