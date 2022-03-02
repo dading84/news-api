@@ -205,9 +205,9 @@ describe("GET - /api/users/:username", () => {
 });
 
 describe("GET - /api/articles", () => {
-  test("status: 200 - should return an array of 12 article objects with specified properties, sorted by date DESC", () => {
+  test("status: 200 - should return an array of 12 article objects with specified properties, sorted by date DESC when limit query is 0", () => {
     return request(app)
-      .get("/api/articles")
+      .get("/api/articles?limit=0")
       .expect(200)
       .then((res) => {
         expect(res.body.articles).toHaveLength(12);
@@ -231,7 +231,7 @@ describe("GET - /api/articles", () => {
   });
   test("status: 200 - should return an array of article objects also including a comment_count property", () => {
     return request(app)
-      .get("/api/articles")
+      .get("/api/articles?limit=0")
       .expect(200)
       .then((res) => {
         expect(res.body.articles).toHaveLength(12);
@@ -247,9 +247,9 @@ describe("GET - /api/articles", () => {
         });
       });
   });
-  test("status: 200 - should be sorted by column and direction when passes in query params", () => {
+  test("status: 200 - should be sorted by column and direction when passed in query params", () => {
     return request(app)
-      .get("/api/articles?sort_by=comment_count&order=asc")
+      .get("/api/articles?sort_by=comment_count&order=asc&limit=0")
       .expect(200)
       .then((res) => {
         expect(res.body.articles).toHaveLength(12);
@@ -261,7 +261,7 @@ describe("GET - /api/articles", () => {
   });
   test("status: 200 - should be filtered by a topic when passed a topic query param", () => {
     return request(app)
-      .get("/api/articles?topic=mitch")
+      .get("/api/articles?topic=mitch&limit=0")
       .expect(200)
       .then((res) => {
         expect(res.body.articles).toHaveLength(11);
@@ -273,6 +273,16 @@ describe("GET - /api/articles", () => {
       .expect(200)
       .then((res) => {
         expect(res.body.articles).toEqual([]);
+      });
+  });
+  test("status: 200 - should return a total_count property and an array of 5 article objects starting from article_id 6 when limit=5 and p=2", () => {
+    return request(app)
+      .get("/api/articles?sort_by=article_id&order=asc&limit=5&p=2")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.total_count).toBe(12);
+        expect(res.body.articles).toHaveLength(5);
+        expect(res.body.articles[0].article_id).toBe(6);
       });
   });
   test("status: 400 - should return a message and a status 400 when the sort_by column does not exist", () => {

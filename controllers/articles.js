@@ -7,11 +7,20 @@ const {
 } = require("../models/articles");
 
 exports.getArticles = ({ query }, res, next) => {
-  const promises = [selectArticles(query.sort_by, query.order, query.topic)];
+  const promises = [
+    selectArticles(
+      query.sort_by,
+      query.order,
+      query.topic,
+      query.limit,
+      query.p
+    ),
+  ];
   if (query.topic) promises.push(checkExists("topics", "slug", query.topic));
   Promise.all(promises)
     .then(([articles]) => {
-      res.status(200).send({ articles });
+      const total_count = articles.length ? articles[0].total_count : 0;
+      res.status(200).send({ total_count, articles });
     })
     .catch(next);
 };
