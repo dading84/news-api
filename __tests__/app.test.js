@@ -401,7 +401,7 @@ describe("POST - /api/articles", () => {
 describe("GET - /api/articles/:article_id/comments", () => {
   test("status: 200 - should return a list of comments, with specified properties, associated with the article", () => {
     return request(app)
-      .get("/api/articles/1/comments")
+      .get("/api/articles/1/comments?limit=0")
       .expect(200)
       .then((res) => {
         expect(res.body.comments).toHaveLength(11);
@@ -424,6 +424,16 @@ describe("GET - /api/articles/:article_id/comments", () => {
       .expect(200)
       .then((res) => {
         expect(res.body.comments).toEqual([]);
+      });
+  });
+  test("status: 200 - should return a total_count property and an array of 4 comment objects starting from comment_id 5 when limit=3 and p=2", () => {
+    return request(app)
+      .get("/api/articles/1/comments?limit=3&p=2")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.total_count).toBe(11);
+        expect(res.body.comments).toHaveLength(3);
+        expect(res.body.comments[0].comment_id).toBe(5);
       });
   });
   test("status: 404 - should return a message and a 404 status when the article does not currently exist", () => {

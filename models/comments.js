@@ -1,11 +1,16 @@
 const db = require("../db/connection.js");
 
-exports.selectCommentsByArticleId = (articleId) => {
-  return db
-    .query(`SELECT * FROM comments WHERE article_id = $1;`, [articleId])
-    .then(({ rows }) => {
-      return rows;
-    });
+exports.selectCommentsByArticleId = (articleId, limit = 10, p = 1) => {
+  const offset = Number((p - 1) * limit);
+  limit = Number(limit) ? Number(limit) : "ALL";
+  const query = `
+  SELECT *, COUNT(*) OVER()::INT AS total_count 
+  FROM comments WHERE article_id = $1
+  OFFSET ${offset}
+  LIMIT ${limit};`;
+  return db.query(query, [articleId]).then(({ rows }) => {
+    return rows;
+  });
 };
 
 exports.insertComment = (articleId, { username: author, body }) => {

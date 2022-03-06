@@ -6,14 +6,16 @@ const {
   updateComment,
 } = require("../models/comments");
 
-exports.getCommentsByArticleId = (req, res, next) => {
+exports.getCommentsByArticleId = ({ params, query }, res, next) => {
   const promises = [
-    selectCommentsByArticleId(req.params.article_id),
-    checkExists("articles", "article_id", req.params.article_id),
+    selectCommentsByArticleId(params.article_id, query.limit, query.p),
+    checkExists("articles", "article_id", params.article_id),
   ];
   Promise.all(promises)
     .then(([comments]) => {
-      res.status(200).send({ comments });
+      const total_count = comments.length ? comments[0].total_count : 0;
+      comments.forEach((article) => delete article.total_count);
+      res.status(200).send({ total_count, comments });
     })
     .catch(next);
 };
