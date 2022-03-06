@@ -4,6 +4,7 @@ const {
   updateArticle,
   selectArticles,
   insertArticle,
+  deleteArticle,
 } = require("../models/articles");
 
 exports.getArticles = ({ query }, res, next) => {
@@ -47,6 +48,14 @@ exports.patchArticle = ({ params, body }, res, next) => {
   updateArticle(params.article_id, body.inc_votes)
     .then((article) => {
       res.status(200).send({ article });
+    })
+    .catch(next);
+};
+
+exports.removeArticle = ({ params }, res, next) => {
+  deleteArticle(params.article_id)
+    .then(() => {
+      res.status(204).send();
     })
     .catch(next);
 };

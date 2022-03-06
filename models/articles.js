@@ -98,3 +98,12 @@ exports.updateArticle = (id, votes) => {
       return rows[0];
     });
 };
+
+exports.deleteArticle = (articleId) => {
+  return db.query(
+    `DELETE FROM articles
+    WHERE article_id = $1;
+    `,
+    [articleId]
+  );
+};

@@ -17,7 +17,6 @@ describe("ALL", () => {
       });
   });
 });
-
 describe("GET - /api", () => {
   test("status: 200 - should respond with JSON representing all the endpoints of the API", () => {
     return request(app)
@@ -30,7 +29,6 @@ describe("GET - /api", () => {
       });
   });
 });
-
 describe("GET - /api/topics", () => {
   test("status: 200 - should return an array of 3 topic objects with slug and description properties", () => {
     return request(app)
@@ -177,7 +175,24 @@ describe("PATCH - /api/articles/:article_id", () => {
       });
   });
 });
-
+describe("DELETE - /api/articles/:article_id", () => {
+  test("status: 204 - should return a 204 status and no content", () => {
+    return request(app)
+      .delete("/api/articles/1")
+      .expect(204)
+      .then((res) => {
+        expect(res.body).toEqual({});
+      });
+  });
+  test("status: 400 - should return a message and a 400 status when the comment_id provided is invalid", () => {
+    return request(app)
+      .delete("/api/articles/dog")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+});
 describe("GET - /api/users", () => {
   test("status: 200 - should return an array of 4 user objects with a username property", () => {
     return request(app)
@@ -596,7 +611,6 @@ describe("PATCH - /api/comments/:comment_id", () => {
       });
   });
 });
-
 describe("DELETE - /api/comments/:comment_id", () => {
   test("status: 204 - should return a 204 status and no content", () => {
     return request(app)

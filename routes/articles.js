@@ -3,6 +3,7 @@ const {
   getArticle,
   patchArticle,
   postArticle,
+  removeArticle,
 } = require("../controllers/articles");
 const {
   getCommentsByArticleId,
@@ -13,7 +14,11 @@ const articleRouter = require("express").Router();
 
 articleRouter.route("/").get(getArticles).post(postArticle);
 
-articleRouter.route("/:article_id").get(getArticle).patch(patchArticle);
+articleRouter
+  .route("/:article_id")
+  .get(getArticle)
+  .patch(patchArticle)
+  .delete(removeArticle);
 
 articleRouter
   .route("/:article_id/comments")
