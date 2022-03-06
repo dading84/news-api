@@ -49,7 +49,23 @@ describe("GET - /api/topics", () => {
       });
   });
 });
-
+describe("POST - /api/topics", () => {
+  test("status: 201 - should return a 201 status and the added object", () => {
+    return request(app)
+      .post("/api/topics")
+      .send({
+        slug: "topic_name",
+        description: "This is a new topic",
+      })
+      .expect(201)
+      .then((res) => {
+        expect(res.body.topic).toEqual({
+          slug: "topic_name",
+          description: "This is a new topic",
+        });
+      });
+  });
+});
 describe("GET - /api/articles/:article_id", () => {
   test("status: 200 - should return an article with the specified properties", () => {
     return request(app)
