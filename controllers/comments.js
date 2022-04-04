@@ -36,8 +36,11 @@ exports.patchComment = ({ params, body }, res, next) => {
     .catch(next);
 };
 
-exports.removeComment = (req, res, next) => {
-  deleteComment(req.params.comment_id)
+exports.removeComment = ({ params }, res, next) => {
+  Promise.all([
+    deleteComment(params.comment_id),
+    checkExists("comments", "comment_id", params.comment_id),
+  ])
     .then(() => {
       res.status(204).send();
     })

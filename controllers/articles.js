@@ -45,8 +45,11 @@ exports.postArticle = ({ body }, res, next) => {
 };
 
 exports.patchArticle = ({ params, body }, res, next) => {
-  updateArticle(params.article_id, body.inc_votes)
-    .then((article) => {
+  Promise.all([
+    updateArticle(params.article_id, body.inc_votes),
+    checkExists("articles", "article_id", params.article_id),
+  ])
+    .then(([article]) => {
       res.status(200).send({ article });
     })
     .catch(next);

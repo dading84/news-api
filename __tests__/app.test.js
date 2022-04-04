@@ -156,13 +156,13 @@ describe("PATCH - /api/articles/:article_id", () => {
         expect(res.body).toEqual(expect.objectContaining(expected2));
       });
   });
-  test("status: 400 - should return a message and a status of 400 when no inc_votes property on the request body", () => {
+  test("status: 400 - should return a message and a status of 400 when invalid id provided", () => {
     return request(app)
-      .patch("/api/articles/1")
-      .send({})
+      .patch("/api/articles/not-an-id")
+      .send({ inc_votes: 1 })
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad request! Missing property");
+        expect(res.body.msg).toBe("Bad request!");
       });
   });
   test("status: 400 - should return a message and a status of 400 when inc_votes property is invalid", () => {
@@ -172,6 +172,15 @@ describe("PATCH - /api/articles/:article_id", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+  test("status: 404 - should return a message and a status of 404 when id does not exist", () => {
+    return request(app)
+      .patch("/api/articles/9999")
+      .send({ inc_votes: 1 })
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
 });
@@ -508,6 +517,30 @@ describe("POST - /api/articles/:article_id/comments", () => {
         );
       });
   });
+  test("status: 201 - should return a 201 status and the added object, even when object contains unnecessary properties", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is my very interesting comment",
+      unnecessProp1: 100,
+      unnecessProp2: "str",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        expect(res.body.comment).toEqual(
+          expect.objectContaining({
+            comment_id: 19,
+            article_id: 2,
+            author: "rogersop",
+            body: "This is my very interesting comment",
+            votes: 0,
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
   test("status: 400 - should return a message and a status 400 when an invalid article_id is provided", () => {
     const newComment = {
       username: "rogersop",
@@ -626,6 +659,14 @@ describe("DELETE - /api/comments/:comment_id", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Bad request!");
+      });
+  });
+  test("status: 404 - should return a message and a 404 status when the comment_id provided does not exist", () => {
+    return request(app)
+      .delete("/api/comments/9999")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Resource not found!");
       });
   });
 });
