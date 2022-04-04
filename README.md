@@ -4,7 +4,9 @@ I have created this news API project as a part of a skills bootcamp course, run 
 
 View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
 
-There is a front end project I completed to connect with this backend API. View the repository here: https://github.com/duncan-s-white/fe-nc-news
+There is also a front end project I completed to connect with this backend API: https://github.com/duncan-s-white/fe-nc-news
+
+You can try out the completed hosted project (frontend and backend): https://dw-nc-news.netlify.app/
 
 ## Setup locally
 
