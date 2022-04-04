@@ -9,11 +9,34 @@
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+  "POST /api/topics": {
+    "description": "allows adding of a new topic, returns the added topic",
+    "queries": [],
+    "exampleRequest": {
+      "slug": "topic_name",
+      "description": "This is a new topic"
+    },
+    "exampleResponse": {
+      "slug": "topic_name",
+      "description": "This is a new topic"
+    }
+  },
   "GET /api/users": {
     "description": "serves an array of all users",
     "queries": [],
     "exampleResponse": {
-      "topics": [{ "username": "user1" }]
+      "users": [{ "username": "user1" }]
+    }
+  },
+  "GET /api/users/:username": {
+    "description": "serves a user matching the username",
+    "queries": [],
+    "exampleResponse": {
+      "user": {
+        "username": "rogersop",
+        "name": "paul",
+        "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
+      }
     }
   },
   "GET /api/articles": {
@@ -101,6 +124,11 @@
         "votes": 21
       }
     }
+  },
+  "DELETE /api/articles/:article_id": {
+    "description": "deletes an article",
+    "queries": [],
+    "exampleResponse": {}
   },
   "POST /api/articles/:article_id/comments": {
     "description": "allows adding of a new comment, returns the added comment",
