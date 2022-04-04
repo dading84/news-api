@@ -32,7 +32,7 @@ This will show the output from all the projects tests, from the jest testing sui
 
 `npm start`
 
-Once running you can view all the available endpoints, and a description of them, by visiting http://localhost:9090/api.
+Once running you can view all the available endpoints, and a description of them, by visiting http://localhost:9090/api in a web browser
 
 ## Minimum tested versions:
 
