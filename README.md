@@ -4,7 +4,7 @@ I have created this news api project as a part of a skills bootcamp course, run 
 
 View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
 
-## Setup
+## Setup locally
 
 ### Clone:
 
@@ -27,6 +27,12 @@ They should both contain the text `PGDATABASE=<database_name_here>` stating the 
 `npm test`
 
 This will show the output from all the projects tests, from the jest testing suites.
+
+### Start the development server:
+
+`npm start`
+
+Once running you can view all the available endpoints, and a description of them, by visiting http://localhost:9090/api.
 
 ## Minimum tested versions:
 
