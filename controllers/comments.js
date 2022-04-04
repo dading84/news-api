@@ -37,10 +37,10 @@ exports.patchComment = ({ params, body }, res, next) => {
 };
 
 exports.removeComment = ({ params }, res, next) => {
-  Promise.all([
-    deleteComment(params.comment_id),
-    checkExists("comments", "comment_id", params.comment_id),
-  ])
+  checkExists("comments", "comment_id", params.comment_id)
+    .then(() => {
+      return deleteComment(params.comment_id);
+    })
     .then(() => {
       res.status(204).send();
     })
