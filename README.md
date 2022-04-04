@@ -1,6 +1,6 @@
 # news-api
 
-I have created this news API project as a part of a skills bootcamp course, run by [Northcoders](https://northcoders.com/)
+I have created this news API as a part of a skills bootcamp course, run by [Northcoders](https://northcoders.com/)
 
 View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
 
