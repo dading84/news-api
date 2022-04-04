@@ -1,8 +1,10 @@
 # news-api
 
-I have created this news api project as a part of a skills bootcamp course, run by [Northcoders](https://northcoders.com/)
+I have created this news API project as a part of a skills bootcamp course, run by [Northcoders](https://northcoders.com/)
 
 View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
+
+There is a front end project I completed to connect with this backend API. View the repository here: https://github.com/duncan-s-white/fe-nc-news
 
 ## Setup locally
 
