@@ -8,6 +8,8 @@ This RESTful api allows users to:
  - Vote on articles and comments
  - Delete articles and comments 
 
+I have also implemeted a CI/CD pipeline using GitHub actions. This runs my development tests for the API in a virtual machine whenever code is merged into the main branch, then if tests are successful, it automatically deploys the updated codebase to the Heroku hosting.
+
 View a live demo of the news-api and all available endpoints here: https://dw-nc-news.herokuapp.com/api
 
 There is also a front end project I completed to connect with this backend API: https://github.com/duncan-s-white/fe-nc-news
