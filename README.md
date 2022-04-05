@@ -2,7 +2,13 @@
 
 I have created this news API as a part of a skills bootcamp course, run by [Northcoders](https://northcoders.com/)
 
-View a live demo of the news-api here: https://dw-nc-news.herokuapp.com/api
+This RESTful api allows users to: 
+ - Add an article or comment
+ - View articles, comments, topics and users
+ - Vote on articles and comments
+ - Delete articles and comments 
+
+View a live demo of the news-api and all available endpoints here: https://dw-nc-news.herokuapp.com/api
 
 There is also a front end project I completed to connect with this backend API: https://github.com/duncan-s-white/fe-nc-news
 
